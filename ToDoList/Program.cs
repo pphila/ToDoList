@@ -1,29 +1,28 @@
-using System;
-using System.Collections.Generic;
-using ToDoList.Models;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace ToDoList.Models
+namespace ToDoList
 {
-  public class Program
+  class Program
   {
-    public static void Main()
+    static void Main(string[] args)
     {
-      string breakLoop = "y";
-      do
-      {
-        Console.WriteLine("Add a task to the list:");
-        string userInput = Console.ReadLine();
-        Item newItem1 = new Item(userInput);
-        Console.WriteLine("Do you want to keep adding a task?(Y or N): ");
-        breakLoop = Console.ReadLine();
-      } while(breakLoop == "Y" || breakLoop == "y");
+      WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-      List<Item> result = Item.GetAll();
+      builder.Services.AddControllersWithViews();
 
-      foreach(Item task in result)
-      {
-        Console.WriteLine("Task: " + task.Description);
-      }
+      WebApplication app = builder.Build();
+
+      app.UseHttpsRedirection();
+
+      app.UseRouting();
+
+      app.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}"
+      );
+
+      app.Run();
     }
   }
 }
