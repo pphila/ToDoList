@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Models;
-using System.Collection.Generic;
+using System.Collections.Generic;
 
 namespace ToDoList.Controllers
 {
   public class ItemsController : Controller
   {
     [HttpGet("/items")]
-    public ActiuonResult Index()
+    public ActionResult Index()
     {
       List<Item> allItems = Item.GetAll();
       return View(allItems);
@@ -19,11 +19,11 @@ namespace ToDoList.Controllers
       return View();
     }
     
-    [HttpGet("/items")]
+    [HttpPost("/items")]
     public ActionResult Create(string description)
     {
       Item myItem = new Item(description);
-      return RedirectToAction("Index")
+      return RedirectToAction("Index");
     }
 
     [HttpPost("/items/delete")]
@@ -32,5 +32,6 @@ namespace ToDoList.Controllers
       Item.ClearAll();
       return View();
     }
+
   }
 }
